@@ -32,12 +32,18 @@ endif()
 target_include_directories( bgfx PRIVATE ${BGFX_DIR}/3rdparty ${BGFX_DIR}/3rdparty/dxsdk/include ${BGFX_DIR}/3rdparty/khronos )
 target_include_directories( bgfx PUBLIC ${BGFX_DIR}/include )
 
+find_package( OpenGL REQUIRED )
+
 # bgfx depends on bx
-target_link_libraries( bgfx PUBLIC bx )
+target_link_libraries( bgfx PUBLIC bx ${OPENGL_LIBRARIES} )
 
 # ovr support
 if( BGFX_USE_OVR )
 	target_link_libraries( bgfx PUBLIC ovr )
+endif()
+
+if( UNIX AND NOT APPLE )
+	target_link_libraries( bgfx PUBLIC X11 pthread dl )
 endif()
 
 # Link against psapi in Visual Studio
@@ -60,7 +66,7 @@ endif()
 set_source_files_properties( ${BGFX_DIR}/src/amalgamated.cpp PROPERTIES HEADER_FILE_ONLY ON )
 set_source_files_properties( ${BGFX_DIR}/src/amalgamated.mm PROPERTIES HEADER_FILE_ONLY ON )
 set_source_files_properties( ${BGFX_DIR}/src/glcontext_ppapi.cpp PROPERTIES HEADER_FILE_ONLY ON )
-set_source_files_properties( ${BGFX_DIR}/src/glcontext_glx.cpp PROPERTIES HEADER_FILE_ONLY ON )
+#set_source_files_properties( ${BGFX_DIR}/src/glcontext_glx.cpp PROPERTIES HEADER_FILE_ONLY ON )
 set_source_files_properties( ${BGFX_DIR}/src/glcontext_egl.cpp PROPERTIES HEADER_FILE_ONLY ON )
 
 # Exclude mm files if not on OS X
