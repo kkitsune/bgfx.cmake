@@ -100,10 +100,11 @@ function( add_example ARG_NAME )
 
 	# Add target
 	if( ARG_COMMON )
+		find_package(SDL2 REQUIRED)
 		add_library( example-${ARG_NAME} STATIC EXCLUDE_FROM_ALL ${SOURCES} )
-		target_compile_definitions( example-${ARG_NAME} PRIVATE "-D_CRT_SECURE_NO_WARNINGS" "-D__STDC_FORMAT_MACROS" )
+		target_compile_definitions( example-${ARG_NAME} PRIVATE "-D_CRT_SECURE_NO_WARNINGS" "-D__STDC_FORMAT_MACROS" "-DENTRY_CONFIG_USE_SDL=1" )
 		target_include_directories( example-${ARG_NAME} PUBLIC ${BGFX_DIR}/examples/common )
-		target_link_libraries( example-${ARG_NAME} PUBLIC bgfx ib-compress ocornut-imgui )
+		target_link_libraries( example-${ARG_NAME} PUBLIC ${SDL2_LIBRARIES} bgfx ib-compress ocornut-imgui )
 	else()
 		add_executable( example-${ARG_NAME} WIN32 EXCLUDE_FROM_ALL ${SOURCES} )
 		target_compile_definitions( example-${ARG_NAME} PRIVATE "-D_CRT_SECURE_NO_WARNINGS" "-D__STDC_FORMAT_MACROS" )

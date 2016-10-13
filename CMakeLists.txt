@@ -11,6 +11,8 @@
 cmake_minimum_required( VERSION 3.0 )
 project( bgfx )
 
+cmake_policy(SET CMP0004 OLD)
+
 set_property( GLOBAL PROPERTY USE_FOLDERS ON )
 if( APPLE )
 	set( CMAKE_CXX_FLAGS "-ObjC++" )
